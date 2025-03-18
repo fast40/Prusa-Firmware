@@ -1528,10 +1528,11 @@ void setup()
           // aborted or missing wizard: show a single warning
           lcd_show_fullscreen_message_and_wait_P(_T(MSG_FOLLOW_CALIBRATION_FLOW));
       }
-      else if (!calibration_status_get(CALIBRATION_STATUS_Z)) {
-          // wizard reset after service prep
-          lcd_show_fullscreen_message_and_wait_P(_T(MSG_FOLLOW_Z_CALIBRATION_FLOW));
-      } else {
+      // else if (!calibration_status_get(CALIBRATION_STATUS_Z)) {
+      //     // wizard reset after service prep
+      //     lcd_show_fullscreen_message_and_wait_P(_T(MSG_FOLLOW_Z_CALIBRATION_FLOW));
+      // }
+      else {
           // warn about other important steps individually
           if (!calibration_status_get(CALIBRATION_STATUS_LIVE_ADJUST))
               lcd_show_fullscreen_message_and_wait_P(_T(MSG_BABYSTEP_Z_NOT_SET));
@@ -7948,12 +7949,12 @@ void process_commands()
 
         // Z lift. For safety only allow positive values
         if (code_seen('Z')) z_target = fabs(code_value());
-        
+
         // Raise the Z axis
         float delta = raise_z(z_target);
 
         // Load filament
-        gcode_M701(fastLoadLength, mmuSlotIndex, !code_seen('Z')); // if no z -> trigger MIN_Z_FOR_LOAD for backwards compatibility on 3.12 and older FW 
+        gcode_M701(fastLoadLength, mmuSlotIndex, !code_seen('Z')); // if no z -> trigger MIN_Z_FOR_LOAD for backwards compatibility on 3.12 and older FW
 
         // Restore Z axis
         raise_z(-delta);
